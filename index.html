@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="stacknil - systems to telemetry to security. A static portfolio focused on monitoring, detection, and security engineering."
+  />
+  <meta name="theme-color" content="#0d1117" />
+  <link
+    rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d1117'/%3E%3Cpath d='M8 9h16v4H8zm0 10h16v4H8z' fill='%2358a6ff'/%3E%3C/svg%3E"
+  />
+  <link rel="canonical" href="https://stacknil.github.io/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="stacknil" />
+  <meta property="og:title" content="stacknil | systems -> telemetry -> security" />
+  <meta
+    property="og:description"
+    content="Static GitHub Pages portfolio for stacknil. Systems foundations feed telemetry work, which feeds monitoring, detection, and security engineering."
+  />
+  <meta property="og:url" content="https://stacknil.github.io/" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="stacknil | systems -> telemetry -> security" />
+  <meta
+    name="twitter:description"
+    content="Static GitHub Pages portfolio focused on telemetry, monitoring, detection, and security engineering."
+  />
+  <!-- TODO: add /assets/social-preview.png, then switch twitter:card to summary_large_image and uncomment the image tags below. -->
+  <!-- <meta property="og:image" content="https://stacknil.github.io/assets/social-preview.png" /> -->
+  <!-- <meta name="twitter:image" content="https://stacknil.github.io/assets/social-preview.png" /> -->
+  <title>stacknil</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0d1117;
+      --panel: #161b22;
+      --panel-2: #0f1720;
+      --panel-3: #0b1320;
+      --text: #e6edf3;
+      --muted: #9da7b3;
+      --line: #30363d;
+      --line-soft: rgba(48, 54, 61, 0.64);
+      --accent: #58a6ff;
+      --accent-2: #7ee787;
+      --max: 1140px;
+      --shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI Variable Text", Inter, "SF Pro Display", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(88, 166, 255, 0.11), transparent 30%),
+        radial-gradient(circle at top right, rgba(126, 231, 135, 0.08), transparent 26%),
+        linear-gradient(180deg, rgba(12, 18, 28, 0.92), rgba(13, 17, 23, 1) 22%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    code {
+      padding: 0.14rem 0.38rem;
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      background: rgba(110, 118, 129, 0.14);
+      font-family: Consolas, "SFMono-Regular", "Liberation Mono", monospace;
+      font-size: 0.94em;
+    }
+
+    .wrap {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(13, 17, 23, 0.82);
+      border-bottom: 1px solid rgba(48, 54, 61, 0.72);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 68px;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      color: var(--text);
+    }
+
+    .brand:hover {
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    main {
+      padding-bottom: 20px;
+    }
+
+    section {
+      padding: 30px 0;
+      scroll-margin-top: 96px;
+    }
+
+    .hero {
+      padding: 76px 0 40px;
+    }
+
+    .hero-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .eyebrow,
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(22, 27, 34, 0.78);
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .eyebrow {
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 860px;
+      font-size: clamp(2.45rem, 5vw, 4.7rem);
+      line-height: 1.03;
+      letter-spacing: -0.045em;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.6rem, 3vw, 2.28rem);
+      line-height: 1.12;
+      letter-spacing: -0.032em;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .hero-copy p,
+    .section-desc {
+      max-width: 760px;
+      color: var(--muted);
+    }
+
+    .hero-copy p {
+      margin-top: 20px;
+      font-size: 1.08rem;
+    }
+
+    .lead {
+      margin-top: 16px;
+      max-width: 760px;
+      font-size: 1rem;
+      color: rgba(230, 237, 243, 0.88);
+    }
+
+    .hero-actions,
+    .project-links,
+    .note-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(22, 27, 34, 0.96), rgba(15, 23, 32, 0.96));
+      color: var(--text);
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: var(--shadow);
+    }
+
+    .button.primary {
+      background: linear-gradient(180deg, rgba(88, 166, 255, 0.22), rgba(88, 166, 255, 0.12));
+      border-color: rgba(88, 166, 255, 0.48);
+    }
+
+    .button:hover {
+      text-decoration: none;
+      border-color: rgba(88, 166, 255, 0.54);
+    }
+
+    .meta-grid,
+    .story-grid,
+    .projects {
+      display: grid;
+      gap: 18px;
+    }
+
+    .meta-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 34px;
+    }
+
+    .story-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 20px;
+    }
+
+    .projects {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .split,
+    .feature-grid,
+    .direction-grid,
+    .footer-inner {
+      display: grid;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .split {
+      grid-template-columns: 1.16fr 0.84fr;
+    }
+
+    .feature-grid {
+      grid-template-columns: minmax(0, 1.18fr) minmax(280px, 0.82fr);
+    }
+
+    .direction-grid,
+    .footer-inner {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .meta-card,
+    .card {
+      background: linear-gradient(180deg, rgba(22, 27, 34, 0.94), rgba(11, 19, 32, 0.98));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .meta-card {
+      padding: 16px 18px;
+    }
+
+    .card {
+      padding: 22px;
+    }
+
+    .feature-card {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top right, rgba(88, 166, 255, 0.18), transparent 34%),
+        linear-gradient(180deg, rgba(22, 27, 34, 0.98), rgba(10, 18, 30, 0.98));
+    }
+
+    .feature-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent, rgba(88, 166, 255, 0.04));
+      pointer-events: none;
+    }
+
+    .meta-label,
+    .section-kicker,
+    .story-index,
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .section-head {
+      margin-bottom: 18px;
+    }
+
+    .section-kicker {
+      color: var(--accent-2);
+      margin-bottom: 8px;
+    }
+
+    .meta-label {
+      margin-bottom: 8px;
+    }
+
+    .meta-value,
+    .project-title,
+    .note-title,
+    .focus-title,
+    .feature-title {
+      font-weight: 700;
+    }
+
+    .meta-value {
+      font-size: 1rem;
+    }
+
+    .feature-title {
+      font-size: 1.45rem;
+      margin-top: 8px;
+    }
+
+    .feature-copy,
+    .muted {
+      color: var(--muted);
+    }
+
+    .feature-copy,
+    .section-desc {
+      margin-top: 10px;
+    }
+
+    .story-step {
+      position: relative;
+      padding-top: 18px;
+    }
+
+    .story-step::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 22px;
+      right: 22px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(88, 166, 255, 0.52), rgba(48, 54, 61, 0.28));
+    }
+
+    .story-index {
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .project-title,
+    .note-title,
+    .focus-title {
+      margin-bottom: 6px;
+    }
+
+    .focus-list,
+    .notes-list,
+    .contact-list,
+    .detail-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .focus-list li,
+    .notes-list li,
+    .contact-list li,
+    .detail-list li {
+      padding: 14px 16px;
+      border: 1px solid rgba(48, 54, 61, 0.92);
+      border-radius: 14px;
+      background: rgba(13, 17, 23, 0.42);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 22px;
+      color: var(--muted);
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.56em;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(88, 166, 255, 0.14);
+    }
+
+    .feature-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .stat {
+      padding: 14px 16px;
+      border: 1px solid rgba(48, 54, 61, 0.9);
+      border-radius: 14px;
+      background: rgba(13, 17, 23, 0.56);
+    }
+
+    .stat-label {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.86rem;
+      background: rgba(13, 17, 23, 0.58);
+    }
+
+    .project-feature {
+      grid-column: 1 / -1;
+    }
+
+    .todo-text {
+      color: #c9d1d9;
+      font-size: 0.93rem;
+      word-break: break-word;
+    }
+
+    .todo-text strong {
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+
+    .status-pill {
+      margin-top: 16px;
+      color: var(--accent-2);
+      border-color: rgba(126, 231, 135, 0.3);
+      background: rgba(46, 160, 67, 0.11);
+    }
+
+    .resume-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .footer {
+      padding: 28px 0 60px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .footer-inner {
+      padding-top: 18px;
+    }
+
+    .footer-title {
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .small {
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero-shell,
+      .story-grid,
+      .split,
+      .feature-grid,
+      .projects,
+      .direction-grid,
+      .resume-box,
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .meta-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .wrap {
+        width: min(calc(100% - 24px), var(--max));
+      }
+
+      .nav-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 12px 0;
+      }
+
+      .hero {
+        padding-top: 54px;
+      }
+
+      .card,
+      .meta-card {
+        padding: 18px;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .feature-metrics {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .meta-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top">stacknil</a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#about">Narrative</a>
+        <a href="#focus">Focus</a>
+        <a href="#direction">Direction</a>
+        <a href="#projects">Projects</a>
+        <a href="#notes">Notes</a>
+        <a href="#resume">Resume</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="wrap">
+    <section class="hero">
+      <div class="hero-shell">
+        <div class="hero-copy">
+          <div class="eyebrow">Systems -> Telemetry -> Security</div>
+          <h1>Building from systems fundamentals toward monitoring, detection, and security engineering.</h1>
+          <p>
+            I am <strong>stacknil</strong>, an early-career builder shaping a public portfolio around one clear motion:
+            systems work creates operational intuition, telemetry work turns that intuition into observable signals, and
+            security engineering applies those signals to detection and response.
+          </p>
+          <p class="lead">
+            The strongest public proof point right now is <strong>telemetry-lab</strong>: a detection-first telemetry
+            sandbox for normalizing events, building windowed logic, and making alert behavior easier to inspect.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="https://github.com/stacknil" target="_blank" rel="noreferrer">GitHub</a>
+            <a class="button" href="#projects">Featured Project</a>
+            <a class="button" href="#direction">What I am building toward</a>
+          </div>
+        </div>
+
+        <aside class="card feature-card" aria-label="Primary project">
+          <div class="section-kicker">Primary Project</div>
+          <div class="feature-title">telemetry-lab</div>
+          <p class="feature-copy">
+            A detection-oriented lab for turning raw telemetry into normalized timelines, explainable rules, and
+            inspectable alert outputs. It is the clearest bridge in this portfolio from structured data work to
+            operational security thinking.
+          </p>
+          <div class="tag-row">
+            <span class="tag">event normalization</span>
+            <span class="tag">windowed rules</span>
+            <span class="tag">timeline outputs</span>
+            <span class="tag">alert inspection</span>
+          </div>
+          <div class="feature-metrics">
+            <div class="stat">
+              <span class="stat-label">Why it matters</span>
+              <strong>Shows the path from data to detection.</strong>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Signal</span>
+              <strong>Monitoring and alert reasoning in code.</strong>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Style</span>
+              <strong>Prototype-first, small-scope, reproducible.</strong>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Current role</span>
+              <strong>Lead public repo on the page.</strong>
+            </div>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/stacknil/telemetry-lab" target="_blank" rel="noreferrer">Repository</a>
+            <a href="https://github.com/stacknil/telemetry-lab/releases" target="_blank" rel="noreferrer">Releases</a>
+          </div>
+        </aside>
+      </div>
+
+      <div class="meta-grid">
+        <div class="meta-card">
+          <div class="meta-label">Primary axis</div>
+          <div class="meta-value">systems -> telemetry -> security</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-label">Current emphasis</div>
+          <div class="meta-value">monitoring, detections, signal clarity</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-label">Working style</div>
+          <div class="meta-value">small, reproducible, portfolio-grade</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-label">Home</div>
+          <div class="meta-value"><a href="https://stacknil.github.io/" target="_blank" rel="noreferrer">stacknil.github.io</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="section-head">
+        <div class="section-kicker">Narrative</div>
+        <h2>A portfolio arranged as a pipeline, not a pile.</h2>
+        <div class="section-desc">
+          The point of this page is to make the portfolio legible fast. Instead of asking visitors to reverse-engineer
+          the relationship between repositories, it states the sequence directly and keeps the public signal compact.
+        </div>
+      </div>
+
+      <div class="story-grid">
+        <article class="card story-step">
+          <div class="story-index">01</div>
+          <div class="project-title">Systems foundations</div>
+          <p class="muted small">
+            Build intuition in programming, Linux, networking, tooling, and reproducible workflows. This is the layer
+            that makes later telemetry and security work grounded instead of decorative.
+          </p>
+        </article>
+
+        <article class="card story-step">
+          <div class="story-index">02</div>
+          <div class="project-title">Telemetry and observability logic</div>
+          <p class="muted small">
+            Convert raw events into structured signals: timelines, baselines, windows, rules, and alerts. This is where
+            analysis becomes operational and easier to verify.
+          </p>
+        </article>
+
+        <article class="card story-step">
+          <div class="story-index">03</div>
+          <div class="project-title">Security and detection engineering</div>
+          <p class="muted small">
+            Apply telemetry habits to monitoring, detections, safe writeups, and security-oriented tooling. The long-term
+            goal is engineering work that is observable, testable, and useful in real workflows.
+          </p>
+        </article>
+      </div>
+
+      <div class="split" style="margin-top: 18px;">
+        <article class="card">
+          <div class="project-title">What this page is optimizing for</div>
+          <p class="muted small">
+            Clear direction, sharper portfolio signal, public artifacts with method behind them, and a narrative that
+            makes monitoring and security intent obvious without overselling maturity.
+          </p>
+          <ul class="focus-list" style="margin-top: 16px;">
+            <li>
+              <div class="focus-title">Coherent sequence</div>
+              <div class="muted small">Each repo should reinforce the same movement rather than compete for identity.</div>
+            </li>
+            <li>
+              <div class="focus-title">Reproducibility over hype</div>
+              <div class="muted small">Small demos, deterministic outputs, visible constraints, and testable workflows.</div>
+            </li>
+            <li>
+              <div class="focus-title">Operational language</div>
+              <div class="muted small">Signals, windows, alerts, monitoring surfaces, hardening, and detection logic.</div>
+            </li>
+          </ul>
+        </article>
+
+        <aside class="card">
+          <div class="project-title">Roadmap snapshot</div>
+          <div class="timeline">
+            <div class="timeline-item"><strong>Now:</strong> tighten the public portfolio, strengthen summaries, publish cleaner notes.</div>
+            <div class="timeline-item"><strong>Next:</strong> deepen Linux, networking, automation, and detection engineering habits.</div>
+            <div class="timeline-item"><strong>Then:</strong> connect telemetry prototypes to monitoring and analyst workflows.</div>
+            <div class="timeline-item"><strong>Target:</strong> become legible for internships, research paths, and security-oriented engineering roles.</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="focus">
+      <div class="section-head">
+        <div class="section-kicker">Focus</div>
+        <h2>Current themes and operating areas.</h2>
+        <div class="section-desc">
+          These are adjacent layers in one engineering direction, not unrelated interests grouped together for volume.
+        </div>
+      </div>
+
+      <div class="projects">
+        <article class="card">
+          <div class="project-title">Systems substrate</div>
+          <p class="muted small">
+            Programming fundamentals, Linux comfort, networking basics, tooling discipline, and the habit of making work
+            reproducible enough to inspect and extend.
+          </p>
+          <div class="tag-row">
+            <span class="tag">Linux</span>
+            <span class="tag">C / C++</span>
+            <span class="tag">Python</span>
+            <span class="tag">tooling</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="project-title">Telemetry workflows</div>
+          <p class="muted small">
+            Event normalization, time windows, rule logic, alert thresholds, timeline rendering, and small experiments
+            that make signal behavior easier to reason about.
+          </p>
+          <div class="tag-row">
+            <span class="tag">events</span>
+            <span class="tag">windows</span>
+            <span class="tag">alerts</span>
+            <span class="tag">observability</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="project-title">Detection mindset</div>
+          <p class="muted small">
+            Think in monitored surfaces, suspicious changes, triage context, and explainable outputs rather than isolated
+            scripts with no operational story.
+          </p>
+          <div class="tag-row">
+            <span class="tag">detections</span>
+            <span class="tag">triage</span>
+            <span class="tag">signal quality</span>
+            <span class="tag">security labs</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="project-title">Writing and governance</div>
+          <p class="muted small">
+            README structure, sanitized notes, controlled terminology, and method-focused public artifacts that show
+            judgment as well as technical curiosity.
+          </p>
+          <div class="tag-row">
+            <span class="tag">writeups</span>
+            <span class="tag">taxonomy</span>
+            <span class="tag">sanitization</span>
+            <span class="tag">portfolio signal</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="direction">
+      <div class="section-head">
+        <div class="section-kicker">Direction</div>
+        <h2>What I am building toward.</h2>
+        <div class="section-desc">
+          The medium-term goal is not just "more projects." It is a stronger fit for monitoring, detection, and
+          security engineering work where instrumentation, signal quality, and judgment all matter.
+        </div>
+      </div>
+
+      <div class="direction-grid">
+        <article class="card">
+          <div class="project-title">Target shape of the portfolio</div>
+          <p class="muted small">
+            A tighter public record that shows I can work from systems understanding into telemetry pipelines, then turn
+            that telemetry into alerts, detections, and safer engineering decisions.
+          </p>
+          <ul class="focus-list" style="margin-top: 16px;">
+            <li>
+              <div class="focus-title">Monitoring engineering</div>
+              <div class="muted small">Build comfort with metrics, logs, service behavior, dashboards, and failure signals.</div>
+            </li>
+            <li>
+              <div class="focus-title">Detection engineering</div>
+              <div class="muted small">Design and tune rules, windows, baselines, and timelines that support investigation.</div>
+            </li>
+            <li>
+              <div class="focus-title">Security engineering</div>
+              <div class="muted small">Strengthen tooling, governance, and instrumentation habits that make systems safer to operate.</div>
+            </li>
+          </ul>
+        </article>
+
+        <aside class="card">
+          <div class="project-title">How the next repos should read</div>
+          <ul class="detail-list">
+            <li>
+              <div class="focus-title">Less "toy project," more operational slice</div>
+              <div class="muted small">Each public repo should capture one small but credible engineering surface.</div>
+            </li>
+            <li>
+              <div class="focus-title">More instrumentation and inspection</div>
+              <div class="muted small">Outputs should make it easy to understand what a rule saw, why it triggered, and what changed.</div>
+            </li>
+            <li>
+              <div class="focus-title">Sharper connection to security workflows</div>
+              <div class="muted small">Show how telemetry artifacts can support triage, monitoring, detection, and safe public communication.</div>
+            </li>
+          </ul>
+          <div class="status-pill">Building toward monitoring / detection / security engineering</div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="section-head">
+        <div class="section-kicker">Selected Projects</div>
+        <h2>Representative repositories with one clear lead project.</h2>
+        <div class="section-desc">
+          The goal here is not breadth. It is to make the strongest repositories easier to scan and easier to place in
+          the larger story.
+        </div>
+      </div>
+
+      <div class="projects">
+        <article class="card feature-card project-feature">
+          <div class="feature-grid">
+            <div>
+              <div class="section-kicker">Featured Repository</div>
+              <div class="feature-title">telemetry-lab</div>
+              <p class="feature-copy">
+                A telemetry sandbox built around detection logic rather than generic analytics. The repo focuses on event
+                normalization, windowed rules, timeline generation, and alert outputs that stay inspectable instead of
+                disappearing into opaque scoring.
+              </p>
+              <p class="lead" style="margin-top: 14px;">
+                This is the strongest public project on the page because it makes the portfolio transition concrete: it
+                turns structured data work into monitoring and detection behavior that can be reasoned about step by step.
+              </p>
+              <div class="tag-row">
+                <span class="tag">pandas</span>
+                <span class="tag">timelines</span>
+                <span class="tag">rules</span>
+                <span class="tag">detections</span>
+                <span class="tag">prototype</span>
+              </div>
+              <div class="project-links">
+                <a href="https://github.com/stacknil/telemetry-lab" target="_blank" rel="noreferrer">Repository</a>
+                <a href="https://github.com/stacknil/telemetry-lab/releases" target="_blank" rel="noreferrer">Releases</a>
+              </div>
+            </div>
+
+            <aside>
+              <ul class="detail-list">
+                <li>
+                  <div class="focus-title">Why it is first</div>
+                  <div class="muted small">It is where systems intuition, telemetry processing, and security-adjacent reasoning meet most clearly.</div>
+                </li>
+                <li>
+                  <div class="focus-title">What it demonstrates</div>
+                  <div class="muted small">Signal shaping, alert logic, inspectable outputs, and the habit of designing around monitoring surfaces.</div>
+                </li>
+                <li>
+                  <div class="focus-title">What it hints at next</div>
+                  <div class="muted small">More realistic detections, better instrumentation, and stronger bridges to operational security workflows.</div>
+                </li>
+              </ul>
+            </aside>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="project-title">repo-sentinel-lite</div>
+          <p class="muted small">
+            A lightweight repository scanner that treats codebases as monitored surfaces rather than static folders. The
+            sharper signal here is engineering hygiene: deterministic checks, packaging discipline, CI release flow, and
+            automation habits that make repository state easier to inspect and trust.
+          </p>
+          <div class="tag-row">
+            <span class="tag">Python</span>
+            <span class="tag">CLI</span>
+            <span class="tag">CI/CD</span>
+            <span class="tag">repo health</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/stacknil/repo-sentinel-lite" target="_blank" rel="noreferrer">Repository</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="project-title">sec-writeups-public</div>
+          <p class="muted small">
+            A sanitized public security notebook where the hard part is judgment, not just note-taking. The repo
+            emphasizes taxonomy, redaction boundaries, terminology control, and public-safe reporting so that security
+            learning becomes reusable without becoming reckless.
+          </p>
+          <div class="tag-row">
+            <span class="tag">security</span>
+            <span class="tag">writeups</span>
+            <span class="tag">sanitization</span>
+            <span class="tag">governance</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/stacknil/sec-writeups-public" target="_blank" rel="noreferrer">Repository</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="project-title">Portfolio frame: systems foundations / security labs / scientific computing</div>
+          <p class="muted small">
+            These repository axes remain part of the larger architecture even when they are not all equally public yet.
+            Their job is to support the same story: stronger fundamentals, better telemetry intuition, and more credible
+            security-oriented engineering over time.
+          </p>
+          <div class="tag-row">
+            <span class="tag">roadmap</span>
+            <span class="tag">portfolio architecture</span>
+            <span class="tag">next public layer</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="notes">
+      <div class="section-head">
+        <div class="section-kicker">Notes</div>
+        <h2>Public writing should explain how the engineering works.</h2>
+        <div class="section-desc">
+          The notes section is here to show reasoning quality, not to pad the page. Until specific pieces are published,
+          keep the placeholders explicit and honest.
+        </div>
+      </div>
+
+      <div class="split">
+        <article class="card">
+          <ul class="notes-list">
+            <li>
+              <div class="note-title">Detection / telemetry note</div>
+              <div class="muted small">A concise writeup on windows, baselines, rule logic, and alert interpretation in plain engineering language.</div>
+              <div class="note-meta">
+                <!-- TODO: replace with a published telemetry note URL. -->
+                <div class="todo-text"><strong>TODO:</strong> add the first public telemetry note URL.</div>
+              </div>
+            </li>
+            <li>
+              <div class="note-title">Security learning note</div>
+              <div class="muted small">A sanitized security note that shows structure, scoping discipline, and public-safe reporting.</div>
+              <div class="note-meta">
+                <!-- TODO: replace with a published security note URL. -->
+                <div class="todo-text"><strong>TODO:</strong> add the first public security note URL.</div>
+              </div>
+            </li>
+            <li>
+              <div class="note-title">Systems / workflow note</div>
+              <div class="muted small">A short piece on repo governance, testing, automation, or reproducible tooling as an engineering habit.</div>
+              <div class="note-meta">
+                <!-- TODO: replace with a published systems or workflow note URL. -->
+                <div class="todo-text"><strong>TODO:</strong> add the first public systems or workflow note URL.</div>
+              </div>
+            </li>
+          </ul>
+        </article>
+
+        <aside class="card">
+          <div class="project-title">What strong notes should signal</div>
+          <ul class="focus-list" style="margin-top: 16px;">
+            <li>
+              <div class="focus-title">Compression</div>
+              <div class="muted small">Explain the mechanism cleanly without turning the page into lecture notes.</div>
+            </li>
+            <li>
+              <div class="focus-title">Transferability</div>
+              <div class="muted small">Show patterns and habits that can move from one lab or repo into another.</div>
+            </li>
+            <li>
+              <div class="focus-title">Operational clarity</div>
+              <div class="muted small">Connect abstract concepts to real monitoring, detection, or workflow decisions.</div>
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section id="resume">
+      <div class="section-head">
+        <div class="section-kicker">Resume</div>
+        <h2>Keep the resume block simple.</h2>
+        <div class="section-desc">
+          One PDF is enough. Until it exists, say exactly what needs to be added instead of leaving a dead button behind.
+        </div>
+      </div>
+
+      <article class="card resume-box">
+        <div>
+          <div class="project-title">Resume / CV</div>
+          <p class="muted small">
+            Publish a single PDF in this site when ready. Recommended path: <code>/assets/stacknil-cv.pdf</code>.
+          </p>
+          <!-- TODO: replace this note with a direct PDF link once /assets/stacknil-cv.pdf exists. -->
+          <div class="status-pill">TODO: publish the resume PDF, then replace this note with a direct link.</div>
+        </div>
+        <div class="todo-text">Keep the page lean: link the PDF and stop there.</div>
+      </article>
+    </section>
+
+    <section id="contact">
+      <div class="section-head">
+        <div class="section-kicker">Contact</div>
+        <h2>Minimal, deliberate, and low-noise.</h2>
+        <div class="section-desc">
+          Public contact should be enough to reach me and enough to verify the work, without filling the page with weak signals.
+        </div>
+      </div>
+
+      <div class="split">
+        <article class="card">
+          <ul class="contact-list">
+            <li>
+              <div class="focus-title">GitHub</div>
+              <div class="muted small"><a href="https://github.com/stacknil" target="_blank" rel="noreferrer">github.com/stacknil</a></div>
+            </li>
+            <li>
+              <div class="focus-title">Site</div>
+              <div class="muted small"><a href="https://stacknil.github.io/" target="_blank" rel="noreferrer">stacknil.github.io</a></div>
+            </li>
+            <li>
+              <div class="focus-title">Email</div>
+              <!-- TODO: replace with a public inbox alias or public contact email. -->
+              <div class="todo-text"><strong>TODO:</strong> add a public inbox or email alias.</div>
+            </li>
+          </ul>
+        </article>
+
+        <aside class="card">
+          <div class="project-title">Positioning line</div>
+          <p class="muted small">
+            Early-career engineer building toward systems, telemetry, monitoring, and security-focused work through
+            small, reproducible, method-driven public projects.
+          </p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div>
+        <div class="footer-title">stacknil</div>
+        <div class="small">Systems -> Telemetry -> Security</div>
+      </div>
+      <div class="small">
+        Static HTML on GitHub Pages, connected to
+        <a href="https://stacknil.github.io/" target="_blank" rel="noreferrer">stacknil.github.io</a>.
+        Social preview image is intentionally reserved as a TODO until the asset exists.
+        <br />
+        © <span id="year"></span> stacknil.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
