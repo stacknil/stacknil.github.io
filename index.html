@@ -502,6 +502,20 @@
       background: rgba(46, 160, 67, 0.11);
     }
 
+    .signal-note {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border: 1px solid rgba(88, 166, 255, 0.28);
+      border-radius: 12px;
+      background: rgba(56, 139, 253, 0.08);
+      color: #c9d1d9;
+      font-size: 0.92rem;
+    }
+
+    .signal-note strong {
+      color: var(--text);
+    }
+
     .resume-box {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -609,10 +623,6 @@
             I am <strong>stacknil</strong>, an early-career builder shaping a public portfolio around one clear motion:
             systems work creates operational intuition, telemetry work turns that intuition into observable signals, and
             security engineering applies those signals to detection and response.
-          </p>
-          <p class="lead">
-            The strongest public proof point right now is <strong>telemetry-lab</strong>: a detection-first telemetry
-            sandbox for normalizing events, building windowed logic, and making alert behavior easier to inspect.
           </p>
           <div class="hero-actions">
             <a class="button primary" href="https://github.com/stacknil" target="_blank" rel="noreferrer">GitHub</a>
@@ -940,6 +950,7 @@
             sharper signal here is engineering hygiene: deterministic checks, packaging discipline, CI release flow, and
             automation habits that make repository state easier to inspect and trust.
           </p>
+          <div class="signal-note"><strong>Why it matters:</strong> it frames repository state as something to observe and verify, which is exactly the mindset behind monitoring surfaces and security hygiene.</div>
           <div class="tag-row">
             <span class="tag">Python</span>
             <span class="tag">CLI</span>
@@ -958,6 +969,7 @@
             emphasizes taxonomy, redaction boundaries, terminology control, and public-safe reporting so that security
             learning becomes reusable without becoming reckless.
           </p>
+          <div class="signal-note"><strong>Why it matters:</strong> it shows the ability to turn security learning into publishable artifacts without leaking unnecessary detail, which is a real engineering judgment signal.</div>
           <div class="tag-row">
             <span class="tag">security</span>
             <span class="tag">writeups</span>
@@ -990,8 +1002,8 @@
         <div class="section-kicker">Notes</div>
         <h2>Public writing should explain how the engineering works.</h2>
         <div class="section-desc">
-          The notes section is here to show reasoning quality, not to pad the page. Until specific pieces are published,
-          keep the placeholders explicit and honest.
+          The notes section is here to show reasoning quality, not to pad the page. Surface the strongest published
+          pieces first, and keep any remaining gaps explicit.
         </div>
       </div>
 
@@ -999,19 +1011,19 @@
         <article class="card">
           <ul class="notes-list">
             <li>
-              <div class="note-title">Detection / telemetry note</div>
-              <div class="muted small">A concise writeup on windows, baselines, rule logic, and alert interpretation in plain engineering language.</div>
+              <div class="note-title">telemetry-lab / Design Notes</div>
+              <div class="muted small">A concise design note on how timestamped events become window features, rule-based alerts, and inspectable outputs.</div>
               <div class="note-meta">
-                <!-- TODO: replace with a published telemetry note URL. -->
-                <div class="todo-text"><strong>TODO:</strong> add the first public telemetry note URL.</div>
+                <a href="https://github.com/stacknil/telemetry-lab/blob/main/docs/design-notes.md" target="_blank" rel="noreferrer">Read note</a>
+                <span class="muted">telemetry / detection design note</span>
               </div>
             </li>
             <li>
-              <div class="note-title">Security learning note</div>
-              <div class="muted small">A sanitized security note that shows structure, scoping discipline, and public-safe reporting.</div>
+              <div class="note-title">sec-writeups-public / SOC Fundamentals</div>
+              <div class="muted small">A public-safe blue-team note on SOC roles, triage flow, alert meaning, and why context decides whether a detection is actually suspicious.</div>
               <div class="note-meta">
-                <!-- TODO: replace with a published security note URL. -->
-                <div class="todo-text"><strong>TODO:</strong> add the first public security note URL.</div>
+                <a href="https://github.com/stacknil/sec-writeups-public/blob/main/notes/80-blue-team/soc-fundamentals.md" target="_blank" rel="noreferrer">Read note</a>
+                <span class="muted">security / blue-team writeup</span>
               </div>
             </li>
             <li>
@@ -1089,8 +1101,7 @@
             </li>
             <li>
               <div class="focus-title">Email</div>
-              <!-- TODO: replace with a public inbox alias or public contact email. -->
-              <div class="todo-text"><strong>TODO:</strong> add a public inbox or email alias.</div>
+              <div class="muted small"><a href="mailto:stacknil@proton.me">stacknil@proton.me</a></div>
             </li>
           </ul>
         </article>
