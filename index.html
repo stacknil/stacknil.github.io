@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta
     name="description"
-    content="stacknil builds reviewable systems, telemetry, and defensive security artifacts with deterministic outputs and explicit scope boundaries."
+    content="stacknil builds reviewable systems, telemetry, and reusable defensive security patterns with deterministic outputs and explicit scope boundaries."
   />
   <meta name="theme-color" content="#0d1117" />
   <link rel="canonical" href="https://stacknil.github.io/" />
@@ -168,10 +168,15 @@
 
     .stack,
     .project-list,
+    .pattern-list,
     .writing-list,
     .contact-list {
       display: grid;
       gap: 14px;
+    }
+
+    .pattern-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .project,
@@ -211,6 +216,10 @@
         flex-direction: column;
         padding: 12px 0;
       }
+
+      .pattern-list {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -221,6 +230,7 @@
       <nav class="nav-links" aria-label="Primary">
         <a href="#about">About</a>
         <a href="#projects">Selected Projects</a>
+        <a href="#patterns">Patterns</a>
         <a href="#writing">Writing</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -297,11 +307,57 @@
 
         <article class="project">
           <h3>sec-writeups-public</h3>
-          <p class="muted">Public, sanitized security notes with explicit publication boundaries, taxonomy, and reviewer-friendly governance.</p>
+          <p class="muted">A public-safe pattern library: 8 stable security patterns extracted from 10 source notes, with maturity and provenance enforced in CI.</p>
           <div class="link-row">
             <a href="https://github.com/stacknil/sec-writeups-public" target="_blank" rel="noreferrer">Repository</a>
+            <a href="https://github.com/stacknil/sec-writeups-public/tree/main/patterns" target="_blank" rel="noreferrer">Pattern library</a>
             <a href="https://github.com/stacknil/sec-writeups-public/blob/main/docs/reviewer-brief.md" target="_blank" rel="noreferrer">Reviewer brief</a>
           </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="patterns">
+      <div class="eyebrow">Reusable Security Patterns</div>
+      <div class="pattern-list">
+        <article class="note">
+          <h3><a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/parsing/parser-uncertainty.md" target="_blank" rel="noreferrer">Parser uncertainty</a></h3>
+          <p class="muted">Keep unsupported input visible instead of treating parser gaps as negative evidence.</p>
+        </article>
+
+        <article class="note">
+          <h3><a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/auth/authentication-burst-triage.md" target="_blank" rel="noreferrer">Authentication burst triage</a></h3>
+          <p class="muted">Bound authentication clusters without turning repeated failures into a compromise verdict.</p>
+        </article>
+
+        <article class="note">
+          <h3><a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/auth/multi-user-probing.md" target="_blank" rel="noreferrer">Multi-user probing</a></h3>
+          <p class="muted">Distinguish username spread from ordinary repeated failure by one account.</p>
+        </article>
+
+        <article class="note">
+          <h3><a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/detection/alert-deduplication.md" target="_blank" rel="noreferrer">Alert deduplication</a></h3>
+          <p class="muted">Collapse duplicate alerts while preserving representative evidence and escalation signals.</p>
+        </article>
+
+        <article class="note">
+          <h3><a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/detection/bounded-correlation.md" target="_blank" rel="noreferrer">Bounded correlation</a></h3>
+          <p class="muted">Require a reproducible join key, event sequence, and time window before claiming a chain.</p>
+        </article>
+
+        <article class="note">
+          <h3><a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/repository/repository-baseline-governance.md" target="_blank" rel="noreferrer">Repository baseline governance</a></h3>
+          <p class="muted">Review suppression drift as security-adjacent code rather than invisible maintenance.</p>
+        </article>
+
+        <article class="note">
+          <h3><a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/supply-chain/sbom-policy-warning.md" target="_blank" rel="noreferrer">SBOM policy warning</a></h3>
+          <p class="muted">Explain why a dependency diff warned without inventing a package-safety verdict.</p>
+        </article>
+
+        <article class="note">
+          <h3><a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/ai/human-verification-boundary.md" target="_blank" rel="noreferrer">Human verification boundary</a></h3>
+          <p class="muted">Keep AI-assisted drafts separate from evidence-backed, human-owned findings.</p>
         </article>
       </div>
     </section>
