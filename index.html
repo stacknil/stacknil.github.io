@@ -5,29 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta
     name="description"
-    content="stacknil builds reviewable systems, telemetry, and reusable defensive security patterns with deterministic outputs and explicit scope boundaries."
+    content="Systems-oriented defensive security tooling for Linux evidence, product-security workflows, and software supply-chain review."
   />
   <meta name="theme-color" content="#0d1117" />
   <link rel="canonical" href="https://stacknil.github.io/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="stacknil" />
-  <meta property="og:title" content="stacknil | systems, telemetry, defensive engineering" />
+  <meta property="og:title" content="stacknil | defensive security tooling" />
   <meta
     property="og:description"
-    content="Minimal landing page for stacknil: selected projects, writing, and contact."
+    content="Linux evidence, product-security workflows, and software supply-chain review backed by deterministic, reviewer-verifiable artifacts."
   />
   <meta property="og:url" content="https://stacknil.github.io/" />
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="stacknil | systems, telemetry, defensive engineering" />
+  <meta name="twitter:title" content="stacknil | defensive security tooling" />
   <meta
     name="twitter:description"
-    content="Reviewable repositories and writing about systems, telemetry, monitoring, and defensive security."
+    content="Systems-oriented defensive security tooling with explicit evidence, provenance, compatibility, and release boundaries."
   />
+  <!-- TODO: Add og:image and twitter:image when a stable social preview asset exists. -->
   <link
     rel="icon"
     href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230d1117'/%3E%3Cpath d='M8 10h16v3H8zm0 9h16v3H8z' fill='%2358a6ff'/%3E%3C/svg%3E"
   />
-  <title>stacknil</title>
+  <title>stacknil | defensive security tooling</title>
   <style>
     :root {
       color-scheme: dark;
@@ -191,6 +192,10 @@
       font-size: 0.94rem;
     }
 
+    .direction {
+      margin-top: 18px;
+    }
+
     .link-row {
       display: flex;
       flex-wrap: wrap;
@@ -241,15 +246,19 @@
     <section id="about">
       <div class="eyebrow">About</div>
       <div class="panel">
-        <h1>Reviewable systems, telemetry, and defensive engineering artifacts.</h1>
+        <h1>Defensive security tooling, built from evidence.</h1>
         <p class="lead">
-          I build small public repositories that are intentionally narrow, reproducible, and easy to inspect. The main
-          arc is systems foundations into telemetry and monitoring, then into defensive security tooling and public-safe
-          security writing.
+          Systems-oriented work across Linux evidence, product-security workflows, and software supply-chain review.
+          I build narrow, local-first tools that turn system, repository, and dependency evidence into deterministic
+          artifacts, bounded findings, and reproducible review paths.
+        </p>
+        <p class="direction">
+          <strong>Building toward:</strong> monitoring, detection, and product-security engineering where defensive
+          tools must be explainable, compatible with developer workflows, and reproducible by another engineer.
         </p>
         <p class="meta">
-          Current emphasis: LogLens, telemetry-lab, repo-sentinel-lite, scientific-computing-toolkit,
-          systems-foundations, and sec-writeups-public.
+          Current stable releases: LogLens v0.6.0, telemetry-lab v1.2, repo-sentinel-lite v0.8.1,
+          scientific-computing-toolkit v1.1.0, and systems-foundations v0.3.0.
         </p>
       </div>
     </section>
@@ -259,49 +268,54 @@
       <div class="project-list">
         <article class="project">
           <h3>LogLens</h3>
-          <p class="muted">C++20 defensive log analysis CLI for Linux auth evidence, with parser coverage telemetry and deterministic report output.</p>
+          <p class="muted">C++20 Linux authentication evidence analysis with explicit parser uncertainty, multi-episode detections, and deterministic report contracts.</p>
           <div class="link-row">
             <a href="https://github.com/stacknil/LogLens" target="_blank" rel="noreferrer">Repository</a>
             <a href="https://github.com/stacknil/LogLens/blob/main/docs/reviewer-path.md" target="_blank" rel="noreferrer">Reviewer path</a>
             <a href="https://github.com/stacknil/LogLens/blob/main/docs/reviewer-brief.md" target="_blank" rel="noreferrer">Reviewer brief</a>
+            <a href="https://github.com/stacknil/LogLens/releases/tag/v0.6.0" target="_blank" rel="noreferrer">v0.6.0</a>
           </div>
         </article>
 
         <article class="project">
           <h3>telemetry-lab</h3>
-          <p class="muted">Deterministic telemetry and detection demos for windowing, dedup, bounded AI-assisted case drafting, and config-change investigation.</p>
+          <p class="muted">Five local detection and investigation workflows with schema-validated artifacts, run manifests, digest provenance, and bounded AI assistance.</p>
           <div class="link-row">
             <a href="https://github.com/stacknil/telemetry-lab" target="_blank" rel="noreferrer">Repository</a>
             <a href="https://github.com/stacknil/telemetry-lab/blob/main/docs/reviewer-path.md" target="_blank" rel="noreferrer">Reviewer path</a>
             <a href="https://github.com/stacknil/telemetry-lab/blob/main/docs/reviewer-brief.md" target="_blank" rel="noreferrer">Reviewer brief</a>
+            <a href="https://github.com/stacknil/telemetry-lab/releases/tag/v1.2" target="_blank" rel="noreferrer">v1.2</a>
           </div>
         </article>
 
         <article class="project">
           <h3>repo-sentinel-lite</h3>
-          <p class="muted">Deterministic repository hygiene and lightweight secret-adjacent scanning with baselines and pre-commit integration.</p>
+          <p class="muted">PyPI-published product-security guardrail with redacted output, baseline-backed scans, changed-file gates, and fail-closed configuration.</p>
           <div class="link-row">
             <a href="https://github.com/stacknil/repo-sentinel-lite" target="_blank" rel="noreferrer">Repository</a>
             <a href="https://github.com/stacknil/repo-sentinel-lite/blob/main/docs/reviewer-brief.md" target="_blank" rel="noreferrer">Reviewer brief</a>
+            <a href="https://github.com/stacknil/repo-sentinel-lite/releases/tag/v0.8.1" target="_blank" rel="noreferrer">v0.8.1</a>
           </div>
         </article>
 
         <article class="project">
           <h3>scientific-computing-toolkit</h3>
-          <p class="muted">Flagship-led scientific and supply-chain review infrastructure centered on the deterministic `sbom-diff-and-risk` tool.</p>
+          <p class="muted">Release-facing SBOM and dependency review with JSON, Markdown, and SARIF artifacts plus conservative policy and provenance evidence.</p>
           <div class="link-row">
             <a href="https://github.com/stacknil/scientific-computing-toolkit" target="_blank" rel="noreferrer">Repository</a>
             <a href="https://github.com/stacknil/scientific-computing-toolkit/blob/main/tools/sbom-diff-and-risk/docs/reviewer-path.md" target="_blank" rel="noreferrer">Reviewer path</a>
             <a href="https://github.com/stacknil/scientific-computing-toolkit/blob/main/docs/reviewer-brief.md" target="_blank" rel="noreferrer">Reviewer brief</a>
+            <a href="https://github.com/stacknil/scientific-computing-toolkit/releases/tag/v1.1.0" target="_blank" rel="noreferrer">v1.1.0</a>
           </div>
         </article>
 
         <article class="project">
           <h3>systems-foundations</h3>
-          <p class="muted">Linux auth and networking-state mini-labs that turn low-level evidence into reviewable normalized artifacts.</p>
+          <p class="muted">Four Linux evidence mini-labs, including a versioned bridge from process and socket diffs to telemetry-lab-compatible JSONL.</p>
           <div class="link-row">
             <a href="https://github.com/stacknil/systems-foundations" target="_blank" rel="noreferrer">Repository</a>
             <a href="https://github.com/stacknil/systems-foundations/blob/main/docs/reviewer-brief.md" target="_blank" rel="noreferrer">Reviewer brief</a>
+            <a href="https://github.com/stacknil/systems-foundations/releases/tag/v0.3.0" target="_blank" rel="noreferrer">v0.3.0</a>
           </div>
         </article>
 
@@ -366,26 +380,26 @@
       <div class="eyebrow">Writing</div>
       <div class="writing-list">
         <article class="note">
-          <h3>telemetry-lab / Design Notes</h3>
-          <p class="muted">Why the project is intentionally a small telemetry asset instead of a platform, and how the pipeline is structured.</p>
+          <h3>LogLens / Parser Uncertainty as Evidence</h3>
+          <p class="muted">Why unsupported input must remain visible instead of silently becoming negative evidence.</p>
           <div class="link-row">
-            <a href="https://github.com/stacknil/telemetry-lab/blob/main/docs/design-notes.md" target="_blank" rel="noreferrer">Read</a>
+            <a href="https://github.com/stacknil/LogLens/blob/main/docs/case-study-parser-uncertainty-as-evidence.md" target="_blank" rel="noreferrer">Read</a>
           </div>
         </article>
 
         <article class="note">
-          <h3>systems-foundations / Text Processing Pipelines</h3>
-          <p class="muted">A systems note on turning shell and text-processing work into reusable, inspectable workflows.</p>
+          <h3>telemetry-lab / Evidence Pipeline Contract</h3>
+          <p class="muted">How reviewer-facing events, findings, summaries, reports, and audit traces stay schema-validated.</p>
           <div class="link-row">
-            <a href="https://github.com/stacknil/systems-foundations/blob/main/notes/linux/text-processing-pipelines.md" target="_blank" rel="noreferrer">Read</a>
+            <a href="https://github.com/stacknil/telemetry-lab/blob/main/docs/evidence-pipeline-contract.md" target="_blank" rel="noreferrer">Read</a>
           </div>
         </article>
 
         <article class="note">
-          <h3>sec-writeups-public / SOC Fundamentals</h3>
-          <p class="muted">A public-safe blue-team note on SOC roles, triage flow, alert meaning, and why context decides whether a detection matters.</p>
+          <h3>sec-writeups-public / SBOM Policy Warning</h3>
+          <p class="muted">How to explain a dependency policy warning without inventing a package-safety verdict.</p>
           <div class="link-row">
-            <a href="https://github.com/stacknil/sec-writeups-public/blob/main/notes/80-blue-team/soc-fundamentals.md" target="_blank" rel="noreferrer">Read</a>
+            <a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/supply-chain/sbom-policy-warning.md" target="_blank" rel="noreferrer">Read</a>
           </div>
         </article>
       </div>
@@ -413,7 +427,7 @@
   </main>
 
   <footer class="footer">
-    <div class="wrap">© <span id="year"></span> stacknil.</div>
+    <div class="wrap">© <span id="year"></span> stacknil. Defensive scope, reproducible artifacts, explicit boundaries.</div>
   </footer>
 
   <script>
