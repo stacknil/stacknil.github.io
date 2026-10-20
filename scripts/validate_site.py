@@ -6,6 +6,7 @@ import argparse
 from collections import Counter
 from html import unescape
 from html.parser import HTMLParser
+from http.client import HTTPException
 import json
 import os
 from pathlib import Path
@@ -37,7 +38,9 @@ class Document(HTMLParser):
         self.doctype = decl.lower() == "doctype html"
 
     def handle_starttag(self, tag, attrs):
-        attrs = dict(attrs)
+        if len(attrs) != len({key for key, _ in attrs}):
+            self.issues.append("duplicate-attribute: HTML attributes must be unambiguous")
+        attrs = {key: value or "" for key, value in attrs}
         self.nodes.append((tag, attrs))
         if tag in {"h1", "h2", "h3", "h4", "h5", "h6"}:
             self.headings.append(int(tag[1]))
@@ -64,18 +67,21 @@ def local_reference(root, source, value, issues):
         issues.append("empty-link: supply a file, fragment, or external URL")
         return
     parsed = urlsplit(value)
+    path = unquote(parsed.path)
+    if "\\" in path:
+        issues.append("unsafe-url: local URL paths must use forward slashes")
+        return
     if parsed.scheme or parsed.netloc:
-        if parsed.scheme not in {"https", "mailto"}:
+        if parsed.scheme not in {"https", "mailto"} or (parsed.scheme == "https" and (not parsed.netloc or "\\" in parsed.netloc)):
             issues.append("unsafe-url: use HTTPS or mailto for external links")
         return
-    path = unquote(parsed.path)
     target = (root / path.lstrip("/") if path.startswith("/") else source.parent / path) if path else source
     target = target.resolve()
+    if target.is_relative_to(root) and target.is_dir():
+        target = (target / "index.html").resolve()
     if not target.is_relative_to(root):
         issues.append("outside-root: local reference leaves the published tree")
         return
-    if target.is_dir():
-        target /= "index.html"
     if not target.is_file():
         issues.append("missing-local: referenced file not present")
     elif parsed.fragment and target.suffix == ".html":
@@ -85,12 +91,32 @@ def local_reference(root, source, value, issues):
 
 
 def public_text_issues(path, text):
-    # Report only the rule and relative filename, never the matched value.
-    return ["privacy: private path or credential pattern in " + path] if PRIVATE.search(unescape(text)) else []
+    # Filenames can contain the same sensitive patterns as file contents.
+    return ["privacy: private path or credential pattern"] if PRIVATE.search(path) or PRIVATE.search(unescape(text)) else []
+
+
+def published_files(root):
+    paths, issues = [], []
+    def unreadable(error):
+        raise error
+    for directory, dirs, files in os.walk(root, onerror=unreadable):
+        dirs[:] = [d for d in dirs if d not in {".git", ".venv", "__pycache__", "node_modules"}]
+        for name in dirs + files:
+            path = Path(directory) / name
+            if path.is_symlink() or path.is_junction():
+                issues.append("filesystem-link: symbolic links and junctions are not published")
+                if name in dirs:
+                    dirs.remove(name)
+            elif name in files:
+                paths.append(path)
+    return paths, issues
 
 
 def validate(root):
     root = root.resolve()
+    paths, issues = published_files(root)
+    if issues:
+        return sorted(set(issues))
     page = root / "index.html"
     doc = Document(page.read_text(encoding="utf-8"))
     issues = list(doc.issues)
@@ -159,17 +185,16 @@ def validate(root):
         png = preview.read_bytes()
         if len(png) < 24 or png[:8] != b"\x89PNG\r\n\x1a\n" or struct.unpack(">II", png[16:24]) != (1200, 630):
             issues.append("metadata: expected a 1200 by 630 PNG preview")
-    for directory, dirs, files in os.walk(root):
-        dirs[:] = [d for d in dirs if d not in {".git", ".venv", "__pycache__", "node_modules"}]
-        for name in files:
-            path = Path(directory) / name
-            if path.suffix not in TEXT:
-                continue
-            text = path.read_text(encoding="utf-8")
-            issues.extend(public_text_issues(path.relative_to(root).as_posix(), text))
-            if path.suffix == ".css":
-                for value in re.findall(r"url\(\s*['\"]?([^)'\"\s]+)", text):
-                    local_reference(root, path, value, issues)
+    for path in paths:
+        if path.suffix not in TEXT:
+            continue
+        text = path.read_text(encoding="utf-8")
+        issues.extend(public_text_issues(path.relative_to(root).as_posix(), text))
+        if path.suffix == ".css":
+            references = re.findall(r"url\(\s*['\"]?([^)'\"\s]+)", text, flags=re.I)
+            references += re.findall(r"@import\s+['\"]([^'\"]+)['\"]", text, flags=re.I)
+            for value in references:
+                local_reference(root, path, value, issues)
     stylesheet = root / "assets/site.css"
     if stylesheet.is_file():
         css = stylesheet.read_text(encoding="utf-8")
@@ -184,7 +209,7 @@ def check_external(url):
             status = response.status
     except HTTPError as error:
         status = error.code
-    except (URLError, TimeoutError, OSError):
+    except (URLError, TimeoutError, OSError, HTTPException, ValueError):
         return "UNVERIFIED", "network or TLS error"
     if 200 <= status < 300:
         return "VERIFIED", "HTTP " + str(status)

@@ -1,5 +1,6 @@
 """Negative controls for the static-site gate; HTTP outcomes are mocked."""
 import importlib.util
+from http.client import BadStatusLine, InvalidURL
 from pathlib import Path
 import shutil
 import tempfile
@@ -140,6 +141,108 @@ class SiteTests(unittest.TestCase):
     def test_network_failure_is_not_broken(self):
         with patch.object(site, "urlopen", side_effect=URLError("offline")):
             self.assertEqual(site.check_external("https://example.com/")[0], "UNVERIFIED")
+
+    def test_duplicate_attributes_cannot_hide_unsafe_href(self):
+        self.mutate('href="#projects"', 'href="javascript:alert(1)" HREF="#projects"')
+        self.rejects("duplicate-attribute")
+
+    def test_bare_metadata_attributes_fail_without_traceback(self):
+        self.mutate('charset="utf-8"', 'charset')
+        self.rejects("metadata")
+
+    def test_backslash_url_paths_are_rejected_on_every_platform(self):
+        original = (self.root / "index.html").read_text(encoding="utf-8")
+        for value in ("assets\\favicon.svg", "assets%5cfavicon.svg"):
+            with self.subTest(value=value):
+                (self.root / "index.html").write_text(original.replace("assets/favicon.svg", value), encoding="utf-8")
+                self.rejects("unsafe-url")
+
+    def test_quoted_css_imports_are_checked(self):
+        css = self.root / "assets/site.css"
+        with css.open("a", encoding="utf-8") as stream:
+            stream.write('\n@import "imported.css";\n')
+        self.rejects("missing-local")
+        (self.root / "assets/imported.css").write_text("p { color: inherit; }", encoding="utf-8")
+        self.assertEqual(site.validate(self.root), [])
+
+    def test_privacy_diagnostic_never_echoes_sensitive_filename(self):
+        value = "gh" + "p_" + "D" * 30
+        for text in (value, "Synthetic public content"):
+            with self.subTest(content_contains_pattern=text == value):
+                issues = site.public_text_issues(value + ".md", text)
+                self.assertTrue(issues)
+                self.assertNotIn(value, str(issues))
+
+    def test_link_inventory_precedes_all_content_reads(self):
+        entry = self.root / "unlinked.md"
+        entry.write_text("Synthetic content", encoding="utf-8")
+        original = Path.is_symlink
+        def linked(path):
+            return path == entry or original(path)
+        with patch.object(Path, "is_symlink", linked), patch.object(Path, "read_text", side_effect=AssertionError("content read before link rejection")):
+            self.rejects("filesystem-link")
+
+    def test_directory_junction_is_rejected_before_content_reads(self):
+        entry = self.root / "nested"
+        entry.mkdir()
+        original = Path.is_junction
+        def junction(path):
+            return path == entry or original(path)
+        with patch.object(Path, "is_junction", junction), patch.object(Path, "read_text", side_effect=AssertionError("content read before junction rejection")):
+            self.rejects("filesystem-link")
+
+    def test_directory_index_is_resolved_before_read(self):
+        directory = self.root / "nested"
+        directory.mkdir()
+        page = directory / "index.html"
+        page.write_text('<p id="known">Synthetic</p>', encoding="utf-8")
+        outside = self.root.parent / "synthetic-outside.html"
+        original = Path.resolve
+        def resolve(path, *args, **kwargs):
+            return outside if path == page else original(path, *args, **kwargs)
+        issues = []
+        with patch.object(Path, "resolve", resolve), patch.object(Path, "read_text", side_effect=AssertionError("read outside tree")):
+            site.local_reference(self.root, self.root / "index.html", "nested/#known", issues)
+        self.assertTrue(any("outside-root" in issue for issue in issues))
+
+    def symlink_or_skip(self, link, target):
+        try:
+            link.symlink_to(target)
+        except OSError as error:
+            if getattr(error, "winerror", None) == 1314:
+                self.skipTest("Windows symlink privilege unavailable")
+            raise
+
+    def test_native_index_symlink_is_rejected(self):
+        with tempfile.TemporaryDirectory() as outside:
+            target = Path(outside) / "index.html"
+            page = self.root / "index.html"
+            target.write_bytes(page.read_bytes())
+            page.unlink()
+            self.symlink_or_skip(page, target)
+            self.rejects("filesystem-link")
+
+    def test_native_unlinked_file_symlink_is_rejected(self):
+        with tempfile.TemporaryDirectory() as outside:
+            target = Path(outside) / "public.txt"
+            target.write_text("Synthetic public content", encoding="utf-8")
+            self.symlink_or_skip(self.root / "unlinked.txt", target)
+            self.rejects("filesystem-link")
+
+    def test_native_directory_index_symlink_is_rejected(self):
+        with tempfile.TemporaryDirectory() as outside:
+            target = Path(outside) / "index.html"
+            target.write_text('<p id="known">Synthetic</p>', encoding="utf-8")
+            directory = self.root / "nested"
+            directory.mkdir()
+            self.symlink_or_skip(directory / "index.html", target)
+            self.mutate('href="#projects"', 'href="nested/#known"')
+            self.rejects("filesystem-link")
+
+    def test_optional_http_malformed_input_is_inconclusive(self):
+        for error in (InvalidURL("synthetic"), ValueError("synthetic"), BadStatusLine("synthetic")):
+            with self.subTest(error=type(error).__name__), patch.object(site, "urlopen", side_effect=error):
+                self.assertEqual(site.check_external("https://example.com/")[0], "UNVERIFIED")
 
 
 if __name__ == "__main__":

@@ -22,6 +22,19 @@ common private-path/credential patterns. Negative controls use temporary
 copies and mocked HTTP responses. It is not a full HTML, accessibility, or
 secret-scanning certification; review changed content and binary assets too.
 
+The published tree must contain regular files and directories. The gate rejects
+symbolic links (including links within the tree) and Windows junctions before
+reading content, then checks the resolved final file for local references.
+This avoids silently following a link outside the site or skipping linked
+content during the privacy scan. It is not a sandbox for concurrent filesystem
+changes or untrusted Python code.
+
+Duplicate HTML attributes are rejected rather than choosing a browser-dependent
+value. Local URL paths use forward slashes; raw and encoded backslashes fail.
+CSS checks cover `url(...)` and quoted `@import` references. Privacy diagnostics
+report the rule without echoing file names or matched content. The pattern scan
+remains limited; Linux CI also checks the actual paths on a case-sensitive host.
+
 ```sh
 python scripts/validate_site.py --check-external
 ```
