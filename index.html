@@ -1,437 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta
-    name="description"
-    content="Systems-oriented defensive security tooling for Linux evidence, product-security workflows, and software supply-chain review."
-  />
-  <meta name="theme-color" content="#0d1117" />
-  <link rel="canonical" href="https://stacknil.github.io/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="stacknil" />
-  <meta property="og:title" content="stacknil | defensive security tooling" />
-  <meta
-    property="og:description"
-    content="Linux evidence, product-security workflows, and software supply-chain review backed by deterministic, reviewer-verifiable artifacts."
-  />
-  <meta property="og:url" content="https://stacknil.github.io/" />
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="stacknil | defensive security tooling" />
-  <meta
-    name="twitter:description"
-    content="Systems-oriented defensive security tooling with explicit evidence, provenance, compatibility, and release boundaries."
-  />
-  <!-- TODO: Add og:image and twitter:image when a stable social preview asset exists. -->
-  <link
-    rel="icon"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230d1117'/%3E%3Cpath d='M8 10h16v3H8zm0 9h16v3H8z' fill='%2358a6ff'/%3E%3C/svg%3E"
-  />
-  <title>stacknil | defensive security tooling</title>
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #0d1117;
-      --panel: #161b22;
-      --line: #30363d;
-      --text: #c9d1d9;
-      --muted: #8b949e;
-      --accent: #58a6ff;
-      --accent-2: #7ee787;
-      --max: 920px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    }
-
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .wrap {
-      width: min(calc(100% - 32px), var(--max));
-      margin: 0 auto;
-    }
-
-    .site-header {
-      border-bottom: 1px solid var(--line);
-      background: rgba(13, 17, 23, 0.94);
-      position: sticky;
-      top: 0;
-    }
-
-    .nav {
-      min-height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .brand {
-      color: var(--text);
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
-
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      font-size: 0.95rem;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-    }
-
-    .nav-links a:hover {
-      color: var(--text);
-    }
-
-    main {
-      padding: 36px 0 60px;
-    }
-
-    section {
-      padding: 28px 0;
-      scroll-margin-top: 84px;
-    }
-
-    h1,
-    h2,
-    h3,
-    p {
-      margin: 0;
-    }
-
-    h1 {
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-    }
-
-    h2 {
-      font-size: 1.4rem;
-      margin-bottom: 10px;
-    }
-
-    h3 {
-      font-size: 1.02rem;
-      margin-bottom: 6px;
-    }
-
-    .eyebrow {
-      color: var(--accent-2);
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 14px;
-    }
-
-    .lead {
-      max-width: 760px;
-      margin-top: 16px;
-      color: var(--muted);
-      font-size: 1.02rem;
-    }
-
-    .panel,
-    .project,
-    .note,
-    .contact-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-    }
-
-    .panel {
-      padding: 22px;
-    }
-
-    .stack,
-    .project-list,
-    .pattern-list,
-    .writing-list,
-    .contact-list {
-      display: grid;
-      gap: 14px;
-    }
-
-    .pattern-list {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .project,
-    .note,
-    .contact-card {
-      padding: 16px 18px;
-    }
-
-    .meta {
-      margin-top: 12px;
-      color: var(--muted);
-      font-size: 0.94rem;
-    }
-
-    .direction {
-      margin-top: 18px;
-    }
-
-    .link-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 10px;
-      font-size: 0.94rem;
-    }
-
-    .muted {
-      color: var(--muted);
-    }
-
-    .footer {
-      border-top: 1px solid var(--line);
-      padding: 20px 0 32px;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    @media (max-width: 640px) {
-      .nav {
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 12px 0;
-      }
-
-      .pattern-list {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>stacknil | systems &amp; defensive security</title>
+  <meta name="description" content="C++ and Python tools for Linux evidence, repository checks, and software supply-chain review. Explore the code, tests, and engineering decisions.">
+  <meta name="theme-color" content="#0b1016">
+  <link rel="canonical" href="https://stacknil.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="stacknil">
+  <meta property="og:title" content="stacknil | systems &amp; defensive security">
+  <meta property="og:description" content="C++ and Python tools for Linux evidence, repository checks, and software supply-chain review. Explore the code, tests, and engineering decisions.">
+  <meta property="og:url" content="https://stacknil.github.io/">
+  <meta property="og:image" content="https://stacknil.github.io/assets/social-preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="stacknil — systems programming and defensive security tooling">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="stacknil | systems &amp; defensive security">
+  <meta name="twitter:description" content="C++ and Python tools for Linux evidence, repository checks, and software supply-chain review. Explore the code, tests, and engineering decisions.">
+  <meta name="twitter:image" content="https://stacknil.github.io/assets/social-preview.png">
+  <meta name="twitter:image:alt" content="stacknil — systems programming and defensive security tooling">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/site.css">
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebSite","name":"stacknil","url":"https://stacknil.github.io/","author":{"@type":"Person","name":"stacknil","sameAs":"https://github.com/stacknil"}}
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header">
     <div class="wrap nav">
-      <a class="brand" href="#about">stacknil</a>
-      <nav class="nav-links" aria-label="Primary">
-        <a href="#about">About</a>
-        <a href="#projects">Selected Projects</a>
-        <a href="#patterns">Patterns</a>
+      <a class="brand" href="#about">stacknil<span aria-hidden="true"> /</span></a>
+      <nav aria-label="Primary">
+        <a href="#projects">Projects</a>
+        <a href="#cases">Case studies</a>
         <a href="#writing">Writing</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
   </header>
-
-  <main class="wrap">
-    <section id="about">
-      <div class="eyebrow">About</div>
-      <div class="panel">
-        <h1>Defensive security tooling, built from evidence.</h1>
-        <p class="lead">
-          Systems-oriented work across Linux evidence, product-security workflows, and software supply-chain review.
-          I build narrow, local-first tools that turn system, repository, and dependency evidence into deterministic
-          artifacts, bounded findings, and reproducible review paths.
-        </p>
-        <p class="direction">
-          <strong>Building toward:</strong> monitoring, detection, and product-security engineering where defensive
-          tools must be explainable, compatible with developer workflows, and reproducible by another engineer.
-        </p>
-        <p class="meta">
-          Current stable releases: LogLens v0.6.0, telemetry-lab v1.2, repo-sentinel-lite v0.8.1,
-          scientific-computing-toolkit v1.1.0, and systems-foundations v0.3.0.
-        </p>
+  <main id="main-content" tabindex="-1">
+    <section id="about" class="hero" aria-labelledby="identity">
+      <div class="wrap">
+        <p class="eyebrow">Systems programming · Product security · Supply chains</p>
+        <h1 id="identity">stacknil</h1>
+        <p class="hero-title">Systems tools.<br>Evidence you can inspect.</p>
+        <p class="lead">I build C++ and Python tools for Linux authentication logs, saved process evidence,
+          repository checks, and dependency review.</p>
+        <div class="actions">
+          <a class="button" href="#projects">Explore the projects <span aria-hidden="true">↓</span></a>
+          <a href="https://github.com/stacknil">GitHub profile <span aria-hidden="true">↗</span></a>
+        </div>
+        <aside id="review" class="review" aria-labelledby="review-title">
+          <h2 id="review-title">Have five minutes?</h2>
+          <ol>
+            <li><a href="https://github.com/stacknil/LogLens/blob/main/docs/reviewer-path.md">Inspect an auth-log finding</a><span>LogLens · parser coverage and evidence</span></li>
+            <li><a href="#process-case">Trace two tools working together</a><span>Saved Linux evidence → telemetry</span></li>
+            <li><a href="https://github.com/stacknil/scientific-computing-toolkit/blob/main/tools/sbom-diff-and-risk/docs/reviewer-path.md">Review a dependency change</a><span>SBOM diff · policy and provenance</span></li>
+          </ol>
+        </aside>
       </div>
     </section>
-
-    <section id="projects">
-      <div class="eyebrow">Selected Projects</div>
+    <section id="projects" class="wrap" aria-labelledby="projects-title">
+      <p class="eyebrow">01 / Code</p>
+      <h2 id="projects-title">Selected projects</h2>
+      <p class="section-intro">Released versions link to tags. Source and tests on main may include later work.</p>
       <div class="project-list">
         <article class="project">
-          <h3>LogLens</h3>
-          <p class="muted">C++20 Linux authentication evidence analysis with explicit parser uncertainty, multi-episode detections, and deterministic report contracts.</p>
+          <p class="meta">C++20 · Linux authentication logs</p>
+          <h3><a href="https://github.com/stacknil/LogLens">LogLens</a></h3>
+          <p>Offline auth-log analysis with parser coverage, time-separated detection episodes, and Markdown/JSON reports.
+            Unsupported input stays visible; a finding is a triage signal.</p>
           <div class="link-row">
-            <a href="https://github.com/stacknil/LogLens" target="_blank" rel="noreferrer">Repository</a>
-            <a href="https://github.com/stacknil/LogLens/blob/main/docs/reviewer-path.md" target="_blank" rel="noreferrer">Reviewer path</a>
-            <a href="https://github.com/stacknil/LogLens/blob/main/docs/reviewer-brief.md" target="_blank" rel="noreferrer">Reviewer brief</a>
-            <a href="https://github.com/stacknil/LogLens/releases/tag/v0.6.0" target="_blank" rel="noreferrer">v0.6.0</a>
+            <a href="https://github.com/stacknil/LogLens/blob/main/docs/reviewer-path.md">Code &amp; reproduction</a>
+            <a href="https://github.com/stacknil/LogLens/releases/tag/v0.6.0">Tagged v0.6.0</a>
           </div>
         </article>
-
         <article class="project">
-          <h3>telemetry-lab</h3>
-          <p class="muted">Five local detection and investigation workflows with schema-validated artifacts, run manifests, digest provenance, and bounded AI assistance.</p>
+          <p class="meta">Python · Detection workflows</p>
+          <h3><a href="https://github.com/stacknil/telemetry-lab">telemetry-lab</a></h3>
+          <p>Five local, file-based demos covering event windows, rule deduplication, and investigations.
+            Schemas and run manifests connect outputs to inputs. This is a lab, not a SIEM.</p>
           <div class="link-row">
-            <a href="https://github.com/stacknil/telemetry-lab" target="_blank" rel="noreferrer">Repository</a>
-            <a href="https://github.com/stacknil/telemetry-lab/blob/main/docs/reviewer-path.md" target="_blank" rel="noreferrer">Reviewer path</a>
-            <a href="https://github.com/stacknil/telemetry-lab/blob/main/docs/reviewer-brief.md" target="_blank" rel="noreferrer">Reviewer brief</a>
-            <a href="https://github.com/stacknil/telemetry-lab/releases/tag/v1.2" target="_blank" rel="noreferrer">v1.2</a>
+            <a href="https://github.com/stacknil/telemetry-lab/blob/main/docs/operator-reproduction.md">Run the demos</a>
+            <a href="https://github.com/stacknil/telemetry-lab/releases/tag/v1.2">Tagged v1.2</a>
           </div>
         </article>
-
         <article class="project">
-          <h3>repo-sentinel-lite</h3>
-          <p class="muted">PyPI-published product-security guardrail with redacted output, baseline-backed scans, changed-file gates, and fail-closed configuration.</p>
+          <p class="meta">Python · Repository hygiene</p>
+          <h3><a href="https://github.com/stacknil/repo-sentinel-lite">repo-sentinel-lite</a></h3>
+          <p>Repository scans with redacted output, reviewed baselines, and changed-file checks for pre-commit workflows.
+            Heuristic findings support review; a clean scan cannot prove secrets are absent.</p>
           <div class="link-row">
-            <a href="https://github.com/stacknil/repo-sentinel-lite" target="_blank" rel="noreferrer">Repository</a>
-            <a href="https://github.com/stacknil/repo-sentinel-lite/blob/main/docs/reviewer-brief.md" target="_blank" rel="noreferrer">Reviewer brief</a>
-            <a href="https://github.com/stacknil/repo-sentinel-lite/releases/tag/v0.8.1" target="_blank" rel="noreferrer">v0.8.1</a>
+            <a href="https://github.com/stacknil/repo-sentinel-lite/blob/main/docs/consumer-minimal-setup.md">Consumer setup</a>
+            <a href="https://github.com/stacknil/repo-sentinel-lite/releases/tag/v0.8.1">Tagged v0.8.1</a>
           </div>
         </article>
-
         <article class="project">
-          <h3>scientific-computing-toolkit</h3>
-          <p class="muted">Release-facing SBOM and dependency review with JSON, Markdown, and SARIF artifacts plus conservative policy and provenance evidence.</p>
+          <p class="meta">Python · Software supply chains</p>
+          <h3><a href="https://github.com/stacknil/scientific-computing-toolkit">scientific-computing-toolkit</a></h3>
+          <p>The flagship SBOM/dependency diff tool produces JSON, Markdown, and SARIF policy-review artifacts.
+            Optional provenance is context, not a vulnerability or package-safety verdict.</p>
           <div class="link-row">
-            <a href="https://github.com/stacknil/scientific-computing-toolkit" target="_blank" rel="noreferrer">Repository</a>
-            <a href="https://github.com/stacknil/scientific-computing-toolkit/blob/main/tools/sbom-diff-and-risk/docs/reviewer-path.md" target="_blank" rel="noreferrer">Reviewer path</a>
-            <a href="https://github.com/stacknil/scientific-computing-toolkit/blob/main/docs/reviewer-brief.md" target="_blank" rel="noreferrer">Reviewer brief</a>
-            <a href="https://github.com/stacknil/scientific-computing-toolkit/releases/tag/v1.1.0" target="_blank" rel="noreferrer">v1.1.0</a>
+            <a href="https://github.com/stacknil/scientific-computing-toolkit/blob/main/tools/sbom-diff-and-risk/docs/reviewer-path.md">Inspect &amp; reproduce</a>
+            <a href="https://github.com/stacknil/scientific-computing-toolkit/releases/tag/v1.1.0">Tagged v1.1.0</a>
           </div>
         </article>
-
-        <article class="project">
-          <h3>systems-foundations</h3>
-          <p class="muted">Four Linux evidence mini-labs, including a versioned bridge from process and socket diffs to telemetry-lab-compatible JSONL.</p>
+        <article class="project supporting">
+          <p class="meta">Python · Supporting systems labs</p>
+          <h3><a href="https://github.com/stacknil/systems-foundations">systems-foundations</a></h3>
+          <p>Four Linux evidence mini-labs for saved authentication, socket, permission, and process state.
+            A process-diff adapter emits JSONL for telemetry-lab; it does not collect live telemetry.</p>
           <div class="link-row">
-            <a href="https://github.com/stacknil/systems-foundations" target="_blank" rel="noreferrer">Repository</a>
-            <a href="https://github.com/stacknil/systems-foundations/blob/main/docs/reviewer-brief.md" target="_blank" rel="noreferrer">Reviewer brief</a>
-            <a href="https://github.com/stacknil/systems-foundations/releases/tag/v0.3.0" target="_blank" rel="noreferrer">v0.3.0</a>
+            <a href="https://github.com/stacknil/systems-foundations/blob/main/projects/linux-process-observe/README.md">Process lab &amp; tests</a>
+            <a href="https://github.com/stacknil/systems-foundations/releases/tag/v0.3.0">Tagged v0.3.0</a>
           </div>
         </article>
-
-        <article class="project">
-          <h3>sec-writeups-public</h3>
-          <p class="muted">A public-safe pattern library: 8 stable security patterns extracted from 10 source notes, with maturity and provenance enforced in CI.</p>
+        <article class="project supporting">
+          <p class="meta">Technical writing · Supporting tools</p>
+          <h3><a href="https://github.com/stacknil/sec-writeups-public">sec-writeups-public</a></h3>
+          <p>Security pattern cards drawn from sanitized, authorized lab notes.
+            Python checks enforce taxonomy, source references, and publication conventions.</p>
           <div class="link-row">
-            <a href="https://github.com/stacknil/sec-writeups-public" target="_blank" rel="noreferrer">Repository</a>
-            <a href="https://github.com/stacknil/sec-writeups-public/tree/main/patterns" target="_blank" rel="noreferrer">Pattern library</a>
-            <a href="https://github.com/stacknil/sec-writeups-public/blob/main/docs/reviewer-brief.md" target="_blank" rel="noreferrer">Reviewer brief</a>
+            <a href="https://github.com/stacknil/sec-writeups-public/tree/main/patterns">Read the patterns</a>
+            <a href="https://github.com/stacknil/sec-writeups-public/blob/main/docs/reviewer-brief.md">Repository scope</a>
           </div>
         </article>
       </div>
     </section>
-
-    <section id="patterns">
-      <div class="eyebrow">Reusable Security Patterns</div>
-      <div class="pattern-list">
-        <article class="note">
-          <h3><a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/parsing/parser-uncertainty.md" target="_blank" rel="noreferrer">Parser uncertainty</a></h3>
-          <p class="muted">Keep unsupported input visible instead of treating parser gaps as negative evidence.</p>
+    <section id="cases" class="wrap" aria-labelledby="cases-title">
+      <p class="eyebrow">02 / Decisions &amp; evidence</p>
+      <h2 id="cases-title">Selected engineering cases</h2>
+      <article id="process-case" class="case featured">
+        <p class="meta">systems-foundations + telemetry-lab · Merged after v1.2</p>
+        <h3>Saved process evidence → telemetry aggregation</h3>
+        <p>The case study reports seven observations, one observation-time window, and zero alerts using two pinned
+          implementations. The timestamp describes a snapshot comparison, not when each change occurred.
+          This exercises ingestion and aggregation, not detection efficacy.</p>
+        <p class="limitation">Public: pinned code, synthetic fixtures, and producer goldens. Full execution receipts remain privately retained.</p>
+        <div class="link-row">
+          <a href="https://github.com/stacknil/telemetry-lab/blob/de542cb3cadba776c8e759f786152f9222fdfdb7/docs/case-study-process-evidence-to-telemetry.md">Read the case &amp; reproduction path</a>
+          <a href="https://github.com/stacknil/telemetry-lab/pull/96">Merged PR #96</a>
+        </div>
+      </article>
+      <div class="case-list">
+        <article class="case">
+          <p class="meta">LogLens · Parser design</p>
+          <h3>Keep uncertainty in the report</h3>
+          <p>Classify unsupported input and expose coverage alongside findings, so a parser gap cannot silently become evidence of absence.</p>
+          <a href="https://github.com/stacknil/LogLens/blob/main/docs/case-study-parser-uncertainty-as-evidence.md">Read the parser case</a>
         </article>
-
-        <article class="note">
-          <h3><a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/auth/authentication-burst-triage.md" target="_blank" rel="noreferrer">Authentication burst triage</a></h3>
-          <p class="muted">Bound authentication clusters without turning repeated failures into a compromise verdict.</p>
-        </article>
-
-        <article class="note">
-          <h3><a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/auth/multi-user-probing.md" target="_blank" rel="noreferrer">Multi-user probing</a></h3>
-          <p class="muted">Distinguish username spread from ordinary repeated failure by one account.</p>
-        </article>
-
-        <article class="note">
-          <h3><a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/detection/alert-deduplication.md" target="_blank" rel="noreferrer">Alert deduplication</a></h3>
-          <p class="muted">Collapse duplicate alerts while preserving representative evidence and escalation signals.</p>
-        </article>
-
-        <article class="note">
-          <h3><a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/detection/bounded-correlation.md" target="_blank" rel="noreferrer">Bounded correlation</a></h3>
-          <p class="muted">Require a reproducible join key, event sequence, and time window before claiming a chain.</p>
-        </article>
-
-        <article class="note">
-          <h3><a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/repository/repository-baseline-governance.md" target="_blank" rel="noreferrer">Repository baseline governance</a></h3>
-          <p class="muted">Review suppression drift as security-adjacent code rather than invisible maintenance.</p>
-        </article>
-
-        <article class="note">
-          <h3><a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/supply-chain/sbom-policy-warning.md" target="_blank" rel="noreferrer">SBOM policy warning</a></h3>
-          <p class="muted">Explain why a dependency diff warned without inventing a package-safety verdict.</p>
-        </article>
-
-        <article class="note">
-          <h3><a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/ai/human-verification-boundary.md" target="_blank" rel="noreferrer">Human verification boundary</a></h3>
-          <p class="muted">Keep AI-assisted drafts separate from evidence-backed, human-owned findings.</p>
+        <article class="case">
+          <p class="meta">SBOM diff · Policy decisions</p>
+          <h3>Explain a dependency warning</h3>
+          <p>Trace dependency changes into policy evidence while keeping risk heuristics and optional provenance separate from package-safety claims.</p>
+          <a href="https://github.com/stacknil/scientific-computing-toolkit/blob/main/tools/sbom-diff-and-risk/docs/case-study-bounded-policy-review.md">Read the SBOM case</a>
         </article>
       </div>
     </section>
-
-    <section id="writing">
-      <div class="eyebrow">Writing</div>
-      <div class="writing-list">
-        <article class="note">
-          <h3>LogLens / Parser Uncertainty as Evidence</h3>
-          <p class="muted">Why unsupported input must remain visible instead of silently becoming negative evidence.</p>
-          <div class="link-row">
-            <a href="https://github.com/stacknil/LogLens/blob/main/docs/case-study-parser-uncertainty-as-evidence.md" target="_blank" rel="noreferrer">Read</a>
-          </div>
-        </article>
-
-        <article class="note">
-          <h3>telemetry-lab / Evidence Pipeline Contract</h3>
-          <p class="muted">How reviewer-facing events, findings, summaries, reports, and audit traces stay schema-validated.</p>
-          <div class="link-row">
-            <a href="https://github.com/stacknil/telemetry-lab/blob/main/docs/evidence-pipeline-contract.md" target="_blank" rel="noreferrer">Read</a>
-          </div>
-        </article>
-
-        <article class="note">
-          <h3>sec-writeups-public / SBOM Policy Warning</h3>
-          <p class="muted">How to explain a dependency policy warning without inventing a package-safety verdict.</p>
-          <div class="link-row">
-            <a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/supply-chain/sbom-policy-warning.md" target="_blank" rel="noreferrer">Read</a>
-          </div>
-        </article>
+    <section id="writing" class="wrap" aria-labelledby="writing-title">
+      <p class="eyebrow">03 / Notes from the work</p>
+      <h2 id="writing-title">Technical writing</h2>
+      <ul class="reading-list">
+        <li><a href="https://github.com/stacknil/telemetry-lab/blob/main/docs/evidence-pipeline-contract.md">Evidence pipeline contracts</a><span>Event, finding, summary, and manifest schemas across five demos.</span></li>
+        <li><a href="https://github.com/stacknil/repo-sentinel-lite/blob/main/docs/case-study-self-dogfooding.md">Repository hygiene in its own development workflow</a><span>Baseline review, redaction, and the limits of heuristic scanning.</span></li>
+        <li><a href="https://github.com/stacknil/systems-foundations/tree/main/notes/linux">Linux systems notes</a><span>Text processing, saved system information, and evidence handling.</span></li>
+      </ul>
+      <div id="patterns" class="patterns">
+        <h3>Reusable security patterns</h3>
+        <p>Start with <a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/parsing/parser-uncertainty.md">parser uncertainty</a>,
+          <a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/repository/repository-baseline-governance.md">baseline governance</a>, or
+          <a href="https://github.com/stacknil/sec-writeups-public/blob/main/patterns/supply-chain/sbom-policy-warning.md">SBOM policy warnings</a>.
+          The <a href="https://github.com/stacknil/sec-writeups-public/tree/main/patterns">full library</a> includes the supporting sources.</p>
       </div>
     </section>
-
-    <section id="contact">
-      <div class="eyebrow">Contact</div>
-      <div class="contact-list">
-        <article class="contact-card">
-          <h3>GitHub</h3>
-          <p><a href="https://github.com/stacknil" target="_blank" rel="noreferrer">github.com/stacknil</a></p>
-        </article>
-
-        <article class="contact-card">
-          <h3>Email</h3>
-          <p><a href="mailto:stacknil@proton.me">stacknil@proton.me</a></p>
-        </article>
-
-        <article class="contact-card">
-          <h3>Profile README</h3>
-          <p><a href="https://github.com/stacknil/stacknil" target="_blank" rel="noreferrer">github.com/stacknil/stacknil</a></p>
-        </article>
+    <section id="contact" class="wrap contact" aria-labelledby="contact-title">
+      <p class="eyebrow">04 / Get in touch</p>
+      <h2 id="contact-title">Code, questions, and focused review</h2>
+      <p>For a bug or technical question, open an issue in the relevant repository with a command and a sanitized example.</p>
+      <div class="link-row">
+        <a href="https://github.com/stacknil">GitHub / stacknil</a>
+        <a href="https://github.com/stacknil/stacknil">Profile README &amp; upstream contributions</a>
+        <a href="mailto:stacknil@proton.me">stacknil@proton.me</a>
       </div>
     </section>
   </main>
-
-  <footer class="footer">
-    <div class="wrap">© <span id="year"></span> stacknil. Defensive scope, reproducible artifacts, explicit boundaries.</div>
-  </footer>
-
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+  <footer class="wrap footer">© stacknil · Local tools, inspectable code, reproducible workflows.</footer>
 </body>
 </html>
